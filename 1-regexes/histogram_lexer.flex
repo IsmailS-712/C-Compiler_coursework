@@ -20,9 +20,9 @@ extern "C" int fileno(FILE *stream);
 
 %%
 
-[0-9]+          { fprintf(stderr, "Number : %s\n", yytext); /* TODO: get value out of yytext and into yylval.numberValue */;  return Number; }
+[0-9]+          { fprintf(stderr, "Number : %s\n", yytext); yylval.numberValue = atoi(yytext);  return Number; }
 
-[a-z]+          { fprintf(stderr, "Word : %s\n", yytext); /* TODO: get value out of yytext and into yylval.wordValue */;  return Word; }
+[a-z]+          { fprintf(stderr, "Word : %s\n", yytext); yylval.wordValue = yytext;  return Word; }
 
 \n              { fprintf(stderr, "Newline\n"); }
 
