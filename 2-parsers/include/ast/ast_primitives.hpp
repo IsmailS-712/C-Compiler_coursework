@@ -3,6 +3,7 @@
 
 #include <string>
 #include <iostream>
+#include "ast_expression.hpp"
 
 class Variable
     : public Expression
