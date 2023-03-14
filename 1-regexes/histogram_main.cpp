@@ -43,10 +43,11 @@ int main()
             // deallocated by us.
 
             // TODO: add yylval.wordValue to histogram
-            histogram[*yylval.wordValue] += 1;
+            std::string text = *(yylval.wordValue);
+            histogram[text]++;
 
             // TODO: Free the pointer yylval.wordValue to stop leaks
-            delete yylval.wordValue;
+            free(yylval.wordValue);
 
         }else{
             assert(0); // There are only three token types.
@@ -54,9 +55,8 @@ int main()
         }
     }
 
-
     // TODO: print out `sum` to std::cout with three decimal digits
-    std::cout << "Sum: " << sum << std::endl; 
+    std::cout << std::setprecision(3) << std::fixed << sum << std::endl; 
 
     // Build a vector of (word,count) entries based on the hash-table
     std::vector<std::pair<std::string,unsigned> > sorted(histogram.begin(), histogram.end());
@@ -78,7 +78,7 @@ int main()
         std::string name=it->first;
         unsigned count=it->second;
         // TODO: Print out `name` and `count` to std::cout
-        std::cout << "Name: " << name << ", Count: " << count << std::endl;
+        std::cout << "[" << name << "] " << count << std::endl;
         
         ++it;
     }

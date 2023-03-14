@@ -20,12 +20,37 @@ extern "C" int fileno(FILE *stream);
 
 %%
 
-[0-9]+          { fprintf(stderr, "Number : %s\n", yytext); yylval.numberValue = atoi(yytext);  return Number; }
+[-]?([0-9]+|[0-9]+\.[0-9]*|[0-9]+\/[0-9]+) { fprintf(stderr, "Number : %s\n", yytext);
+                                             std::string yytext2 = std::string(yytext);
+                                             if (yytext2.find("/") == std::string::npos) {
+                                                yylval.numberValue = std::stod(yytext); 
+                                             }
+                                             else {
+                                                size_t position = yytext2.find("/");
+                                                std::string numerator = yytext2.substr(0, position);
+                                                std::string denominator = yytext2.substr(position+1);
+                                                double fraction = std::stod(numerator)/std::stod(denominator); 
+                                                yylval.numberValue = fraction;
+                                             }
+                                             return Number; 
+                                          }
 
-[a-z]+          { fprintf(stderr, "Word : %s\n", yytext); yylval.wordValue = yytext;  return Word; }
+[a-zA-Z]+|\[[\000-\134\136-\377]*\]   { fprintf(stderr, "Word : %s\n", yytext); 
+                                       std::string yytext3 = std::string(yytext);
+                                       if (yytext3[0] == '[') {
+                                          std::string value1 = yytext3.substr(1, yytext3.length()-2);
+                                          yylval.wordValue = new std::string(value1);
+                                       }
+                                       else {
+                                          yylval.wordValue = new std::string(yytext);
+                                       } 
+                                       return Word; }
 
 \n              { fprintf(stderr, "Newline\n"); }
 
+[ \t\r]         { fprintf(stderr, "Whitespace\n"); }
+
+.               { fprintf(stderr, "Stray char\n"); }
 
 %%
 
