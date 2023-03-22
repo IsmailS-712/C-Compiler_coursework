@@ -33,7 +33,7 @@ int32_t Interpret(
         
     else if (program->type=="Input"){
         int32_t val_input;
-        std::cin>>val_input;
+        std::cin >> val_input;
         return val_input;
     }
     else if (program->type=="Add"){

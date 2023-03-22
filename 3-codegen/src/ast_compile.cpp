@@ -34,18 +34,18 @@ void CompileRec(
         }
     
     // TODO : handle the others
-    }else if (program->type =="Input"){
+    }else if (program->type=="Input"){
         std::cout<<"input "<<destReg<<std::endl;
     
-    }else if (program->type =="Output"){
-        CompileRec(destReg, program ->branches[0]);
+    }else if (program->type=="Output"){
+        CompileRec(destReg, program->branches[0]);
         std::cout<<"output "<<destReg<<std::endl;
     
-    }else if (program->type =="While"){
+    }else if (program->type=="While"){
         std::string zero = makeName("zero");
         std::cout<<"const "<<zero<<" 0"<<std::endl;
-        std::string ltop = makeName ("ltop");
-        std::string lbot = makeName ("lbot");
+        std::string ltop = makeName("ltop");
+        std::string lbot = makeName("lbot");
         std::cout<<":"<<ltop<<std::endl;
         std::string srcRegA = makeName("srcRegA");
         CompileRec(srcRegA, program->branches[0]);
@@ -55,7 +55,7 @@ void CompileRec(
         std::cout<<":"<<lbot<<std::endl;
         std::cout<<"add "<<destReg<<" "<<zero<<" "<<zero<<std::endl;
 
-    }else if (program->type =="Add"){
+    }else if (program->type=="Add"){
         std::string srcRegA = makeName("srcRegA");
         CompileRec(srcRegA, program->branches[0]);
         std::string srcRegB = makeName("srcRegB");
@@ -63,7 +63,7 @@ void CompileRec(
         CompileRec(srcRegB, program->branches[1]);
         std::cout<<"add "<<destReg<<" "<<srcRegA<<" "<<srcRegB<<std::endl;
 
-    }else if (program->type =="Sub"){
+    }else if (program->type=="Sub"){
         std::string srcRegA = makeName("srcRegA");
         CompileRec(srcRegA, program->branches[0]);
         std::string srcRegB = makeName("srcRegB");
@@ -72,7 +72,7 @@ void CompileRec(
         std::cout<<"sub "<<destReg<<" "<<srcRegA<<" "<<srcRegB<<std::endl;
     
 
-    }else if (program->type =="LessThan"){
+    }else if (program->type=="LessThan"){
         std::string srcRegA = makeName("srcRegA");
         CompileRec(srcRegA, program->branches[0]);
         std::string srcRegB = makeName("srcRegB");
@@ -86,19 +86,19 @@ void CompileRec(
         std::string Else = makeName("Else");
         std::string Skip = makeName("Skip");
         std::cout<<"const "<<zero<<" 0"<<std::endl;
-        CompileRec(srcRegA, program-> branches[0]);
+        CompileRec(srcRegA, program->branches[0]);
         std::cout<<"beq "<<srcRegA<<" "<<zero<<" "<<Else<<std::endl;
-        CompileRec(destReg, program-> branches[1]);
+        CompileRec(destReg, program->branches[1]);
         std::cout<<"beq "<<zero<<" "<<zero<<" "<<Skip<<std::endl;
         std::cout<<":"<<Else<<std::endl;
-        CompileRec(destReg, program-> branches[2]);
+        CompileRec(destReg, program->branches[2]);
         std::cout<<":"<<Skip<<std::endl;
 
-    }else if (program->type =="Assign"){
+    }else if (program->type=="Assign"){
         std::string srcRegA = program->value;
         std::string zero = makeName("zero");
         std::cout<<"const "<<zero<<" 0"<<std::endl;
-        CompileRec(srcRegA, program-> branches[0]);
+        CompileRec(srcRegA, program->branches[0]);
         std::cout<<"add "<<srcRegA<<" "<<srcRegA<<" "<<zero<<std::endl;
 
     }else{
@@ -110,7 +110,7 @@ void Compile(
     TreePtr program
 ){
     // Create a register to hold the final result
-    std::string res=makeName("res");
+    std::string res = makeName("res");
     
     // Compile the whole thing
     CompileRec(res, program);
